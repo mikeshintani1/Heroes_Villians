@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Review
+from .models import Supers
 
-class ReviewSerializer(serializers.ModelSerializer):
+class SupersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Review
+        model = Supers
         fields = ['id', 'name', 'alter_ego', 'primary_ability', 'secondary_ability', 'catchphrase', 'super_type']
         depth = 1
     
-    product_id = serializers.IntegerField(write_only=True)
+    super_types_id = serializers.IntegerField(write_only=True)
