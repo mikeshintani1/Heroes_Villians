@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Super_Types(models.Model):
-    name = models.CharField(max_length=255)
-    super_type = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+   
 
 
