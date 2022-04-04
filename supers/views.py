@@ -22,6 +22,24 @@ def supers_list(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+@api_view(['GET'])
+def sort_heroes_list(request):
+
+    super_types_param = request.query_params.get('super_types')
+    sort_param = request.query_params.get('sort')
+
+    supers = Supers.objects.all()
+
+    if super_types_param:
+        supers = supers.filter(super_types__type=super_types_param)
+
+    if sort_param:
+        supers = supers.order_by(sort_param)
+
+    serializer = SupersSerializer(supers, many=True)
+    return Response(serializer.data)
+    
 @api_view(['GET', 'PUT', 'DELETE'])
 def supers_detail(request, pk):
     supers = get_object_or_404(Supers, pk=pk)
@@ -36,27 +54,3 @@ def supers_detail(request, pk):
     elif request.method == 'DELETE':
         supers.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-@api_view(['GET'])
-
-def super_types_list(request):
-
-    appending_dict_example = {}
-    appending_dict_example['name'] = 'Bob'
-    print(appending_dict_example)
-
-    supers_type = Super_Types.objects.all()
-    
-    custom_response_dictionary = {}
-
-    for super_types in super_types:
-
-        supers = Supers.objects.filter(supers_id=supers.id)
-
-        supers_serializer = SupersSerializer(supers, many=True)
-
-        custom_response_dictionary[super_types.name] = {
-            "address": super_types.address,
-            "supers": supers_serializer.data
-        }
-    return Response(custom_response_dictionary)
