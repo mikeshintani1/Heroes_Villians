@@ -39,7 +39,7 @@ def supers_detail(request, pk):
 
 @api_view(['GET'])
 
-def review_list(request):
+def super_types_list(request):
 
     appending_dict_example = {}
     appending_dict_example['name'] = 'Bob'
