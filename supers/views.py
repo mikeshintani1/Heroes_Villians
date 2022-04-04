@@ -13,8 +13,8 @@ from django.shortcuts import get_object_or_404
 @api_view(['GET','POST'])
 def supers_list(request):
     if request.method == 'GET':
-        review = Supers.objects.all()
-        serializer = SupersSerializer(review, many=True)
+        supers = Supers.objects.all()
+        serializer = SupersSerializer(supers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         serializer = SupersSerializer(data=request.data)
