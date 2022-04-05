@@ -16,7 +16,7 @@ def supers_list(request):
     supers = Supers.objects.all()
     super_types_param = request.query_params.get('type')
     sort_param = request.query_params.get('sort')
-    
+    custom_response_dictionary = {}
     if super_types_param:
         supers = supers.filter(super_types__type = super_types_param)
         serializer = SupersSerializer(supers, many=True)
@@ -25,29 +25,21 @@ def supers_list(request):
         supers = supers.order_by(sort_param)
         serializer = SupersSerializer(supers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+     
     if request.method == 'GET':
         super_types = Super_Types.objects.all()
-        custom_response_dictionary = {}
-
-    for super_types in super_types:
-        custom_response_dictionary = {}
-        # super_types = Super_Types.objects.all()
-        supers = Supers.objects.filter(super_types__type=super_types)
-
-        supers_serializer = SupersSerializer(supers, many=True)
-
-        custom_response_dictionary[super_types.type] = {
-            "types": super_types.type,
-            "id": supers_serializer.data
-        }
-        return Response(custom_response_dictionary)
-
-        supers = Supers.objects.all()
-        serializer = SupersSerializer(supers, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     
+        for super_types in super_types:
+        
+            supers = Supers.objects.filter(super_types=super_types)
+            supers_serializer = SupersSerializer(supers, many=True)
+            custom_response_dictionary[super_types.type] = {
+                "types": super_types.type,
+                "supers": supers_serializer.data
+            }
+            # return Response(serializer.data, status=status.HTTP_200_OK) 
+        return Response(custom_response_dictionary)
+  
     if request.method == 'POST':
         serializer = SupersSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
