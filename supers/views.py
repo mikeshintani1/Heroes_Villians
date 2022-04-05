@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from rest_framework import filters
 # Create your views here.
 # from super_types.models import Super_Types
 from rest_framework.decorators import api_view
@@ -12,23 +12,31 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 
 @api_view(['GET','POST'])
-def supers_list(request):
+def supers_list(request,):
+    supers = Supers.objects.all()
     super_types_param = request.query_params.get('type')
     sort_param = request.query_params.get('sort')
-    supers = Supers.objects.all()
-    if request.method == 'GET':
-        super_types_param
-    elif super_types_param:
-        supers = supers.filter(Super_Types_type=super_types_param)
+    
+    if super_types_param:
+        supers = supers.filter(super_types__type = super_types_param)
+        serializer = SupersSerializer(supers, many=True)
+        return Response(serializer.data)
     elif sort_param:
         supers = supers.order_by(sort_param)
         serializer = SupersSerializer(supers, many=True)
+        return Response(serializer.data)
+    if request.method == 'GET':
+        supers = Supers.objects.all()
+        serializer = SupersSerializer(supers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
+
+
+    
+    if request.method == 'POST':
         serializer = SupersSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # @api_view(['GET'])
@@ -38,7 +46,10 @@ def supers_list(request):
 #     sort_param = request.query_params.get('sort')
 #     supers = Supers.objects.all()
 
-
+#     if super_types_param:
+#         supers = supers.filter(Super_Types__type=super_types_param)
+#     if sort_param:
+#         supers = supers.order_by(sort_param)
 #     serializer = SupersSerializer(supers, many=True)
 #     return Response(serializer.data)
     
