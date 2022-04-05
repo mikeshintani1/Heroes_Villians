@@ -38,7 +38,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/supers?type=hero",
+							"raw": "http://127.0.0.1:8000/api/supers?type=\"Hero\"",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -54,7 +54,7 @@
 							"query": [
 								{
 									"key": "type",
-									"value": "hero"
+									"value": "\"Hero\""
 								}
 							]
 						}
@@ -122,7 +122,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Joker Two\",\r\n    \"alter_ego\": \"Jack Napier\",\r\n    \"primary_ability\": \"Chemical engineering\",\r\n    \"secondary_ability\": \"Razor-tipped playing cards\",\r\n    \"catchphrase\": \"Why so serious\",\r\n    \"super_type_id\": 1\r\n}",
+							"raw": "{\r\n    \"name\": \"Joker Two\",\r\n    \"alter_ego\": \"Jack Napier\",\r\n    \"primary_ability\": \"Chemical engineering\",\r\n    \"secondary_ability\": \"Razor-tipped playing cards\",\r\n    \"catchphrase\": \"Why so serious\",\r\n    \"super_type_id\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

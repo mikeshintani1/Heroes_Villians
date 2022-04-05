@@ -61,21 +61,3 @@ def supers_detail(request, pk):
     elif request.method == 'DELETE':
         supers.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-# @api_view(['GET'])
-# def super_type_list(request):
-
-#     super_types = Super_Types.objects.all()
-#     custom_response_dictionary = {'heroes' = [], 'villains' = [],}
-
-#     for type in super_types:
-
-#         supers = Supers.objects.filter(super_types__type=super_types)
-
-#         supers_serializer = SupersSerializer(supers, many=True)
-
-#         custom_response_dictionary[super_types.type] = {
-#             "type": super_types.type,
-#             "id": supers_serializer.id
-#         }
-#         return Response(custom_response_dictionary)
