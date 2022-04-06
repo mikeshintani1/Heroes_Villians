@@ -9,6 +9,7 @@ from .models import Supers
 from .serializers import SupersSerializer
 from django.shortcuts import get_object_or_404
 from super_types.models import Super_Types
+from super_types.models import Power
 # Create your views here.
 
 @api_view(['GET','POST'])
@@ -47,7 +48,7 @@ def supers_list(request):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
 def supers_detail(request, pk):
     supers = get_object_or_404(Supers, pk=pk)
     if request.method == 'GET':
@@ -61,3 +62,13 @@ def supers_detail(request, pk):
     elif request.method == 'DELETE':
         supers.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['PATCH'])
+def power_ability(request, id):
+    if request.method == 'PATCH':       
+        power = get_object_or_404(Power, id=id)
+        power_ability = Supers.add_to_class(power)
+        serializer = SupersSerializer(power_ability,data = request.data, partial =True)
+    if serializer.is_valid(raise_exception=True):
+            serializer.save()
+    return Response(serializer.data, status= status.HTTP_202_ACCEPTED)
