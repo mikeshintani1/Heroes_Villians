@@ -10,5 +10,5 @@ class Supers(models.Model):
     # secondary_ability = models.ManyToManyField(Power, related_name='powers')
     catchphrase = models.CharField(max_length=255)
     super_types = models.ForeignKey(Super_Types, on_delete=models.CASCADE)
-
+   
     power_ability = models.ManyToManyField(Power)

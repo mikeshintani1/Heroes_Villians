@@ -1,3 +1,4 @@
+from webbrowser import get
 from django.shortcuts import render
 from rest_framework import filters
 # Create your views here.
@@ -64,11 +65,10 @@ def supers_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 @api_view(['PATCH'])
-def power_ability(request, id):
-    if request.method == 'PATCH':       
-        power = get_object_or_404(Power, id=id)
-        power_ability = Supers.add_to_class(power)
-        serializer = SupersSerializer(power_ability,data = request.data, partial =True)
-    if serializer.is_valid(raise_exception=True):
-            serializer.save()
-    return Response(serializer.data, status= status.HTTP_202_ACCEPTED)
+def power_ability(request, id, pk):
+    supers = get_object_or_404(Supers, pk=pk)
+    power = get_object_or_404(Power, id=id)
+    update_super = supers.power_ability.add(power)
+    serializer = SupersSerializer(update_super)
+
+    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
